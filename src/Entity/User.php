@@ -4,13 +4,19 @@ namespace App\Entity;
 
 use App\Repository\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
+ * @UniqueEntity(
+ *     fields = {"email"},
+ *     message= "Pseudo pas disponible"
+ * )
+ * @method string getUserIdentifier()
  */
-class User implements UserInterface, PasswordAuthenticatedUserInterface
+class User implements UserInterface
 {
     /**
      * @ORM\Id
@@ -35,6 +41,25 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $password;
 
+    /**
+     *@Assert\Length(min=5,max=15,minMessage="Le mdp doit faire entre 5 et 15 caractères",max=15,maxMessage="Le mdp doit faire entre 5 et 15 caractères")
+     *@Assert\EqualTo(propertyPath="password",message="Mot de passe différent")
+     */
+    private $verificationPassword;
+
+
+    public function getVerificationPassword() :?string
+    {
+        return $this->verificationPassword;
+    }
+
+
+    public function setVerificationPassword($verificationPassword): self
+    {
+        $this->verificationPassword = $verificationPassword;
+        return $this;
+    }
+
     public function getId(): ?int
     {
         return $this->id;
@@ -52,15 +77,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    /**
-     * A visual identifier that represents this user.
-     *
-     * @see UserInterface
-     */
-    public function getUserIdentifier(): string
-    {
-        return (string) $this->email;
-    }
 
     /**
      * @deprecated since Symfony 5.3, use getUserIdentifier instead
@@ -89,9 +105,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    /**
-     * @see PasswordAuthenticatedUserInterface
-     */
+
     public function getPassword(): string
     {
         return $this->password;
@@ -104,20 +118,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    /**
-     * Returning a salt is only needed, if you are not using a modern
-     * hashing algorithm (e.g. bcrypt or sodium) in your security.yaml.
-     *
-     * @see UserInterface
-     */
+
     public function getSalt(): ?string
     {
         return null;
     }
 
-    /**
-     * @see UserInterface
-     */
+
     public function eraseCredentials()
     {
         // If you store any temporary, sensitive data on the user, clear it here

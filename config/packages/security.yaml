@@ -9,8 +9,8 @@ security:
 
     # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
     providers:
-        # used to reload user from session & other features (e.g. switch_user)
-        app_user_provider:
+        users_in_memory: { memory: null }
+        in_database:
             entity:
                 class: App\Entity\User
                 property: email
@@ -20,10 +20,15 @@ security:
             security: false
         main:
             lazy: true
-            provider: app_user_provider
-            custom_authenticator: App\Security\LoginFormAuthenticator
+            provider: in_database
+
+            form_login:
+                login_path: login
+                check_path: login
+
             logout:
-                path: app_logout
+                path: deconnexion
+                target: login
                 # where to redirect after logout
                 # target: app_any_route
 
