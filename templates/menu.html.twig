@@ -1,0 +1,64 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="{{ path('index') }}">Workshop</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor02" aria-controls="navbarColor02" aria-expanded="true" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="navbar-collapse collapse show" id="navbarColor02" style="">
+            <ul class="navbar-nav me-auto">
+
+
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle " data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="true">Item 1</a>
+                    <div class="dropdown-menu " style="position: absolute; inset: 0px auto auto 0px; margin: 0px; transform: translate(0px, 42px);" data-popper-placement="bottom-start">
+                        <a class="dropdown-item" href="">Item A</a>
+                        {% if is_granted('ROLE_ADMIN') %}
+                            <a class="dropdown-item" href="">Admin Item A</a>
+                        {% endif %}
+                    </div>
+                </li>
+
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle " data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="true">Item 2</a>
+                    <div class="dropdown-menu " style="position: absolute; inset: 0px auto auto 0px; margin: 0px; transform: translate(0px, 42px);" data-popper-placement="bottom-start">
+                        <a class="dropdown-item" href="">Item B</a>
+                        {% if is_granted('ROLE_ADMIN') %}
+                            <a class="dropdown-item" href="">Admin Item B</a>
+                        {% endif %}
+                    </div>
+                </li>
+            </ul>
+            <ul class="navbar-nav ml-auto">
+                {% if not app.user %}
+                    <li>
+                        <a class="nav-link" href="{{ path('inscription') }}">
+                            Inscription
+                        </a>
+                    </li>
+
+                    <li>
+                        <a class="nav-link" href="{{ path('login') }}">
+                            Connexion
+                        </a>
+                    </li>
+                {% else %}
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle " data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="true">{{ app.user.username }}</a>
+                        <div class="dropdown-menu" style="position: absolute; inset: 0px auto auto 0px; margin: 0px; transform: translate(0px, 40px);" data-popper-placement="bottom-start">
+                            <a class="nav-link" href="{{ path('deconnexion') }}">
+                                Logout
+                            </a>
+                        </div>
+                    </li>
+                    <li>
+
+                    </li>
+                {% endif %}
+
+
+            </ul>
+
+        </div>
+    </div>
+</nav>
