@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -34,6 +36,21 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @ORM\Column(type="string")
      */
     private $password;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=quizz::class, inversedBy="users")
+     */
+    private $quizz;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=entreprise::class, inversedBy="users")
+     */
+    private $entreprise;
+
+    public function __construct()
+    {
+        $this->quizz = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -122,5 +139,41 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
+    }
+
+    /**
+     * @return Collection|quizz[]
+     */
+    public function getQuizz(): Collection
+    {
+        return $this->quizz;
+    }
+
+    public function addQuizz(quizz $quizz): self
+    {
+        if (!$this->quizz->contains($quizz)) {
+            $this->quizz[] = $quizz;
+        }
+
+        return $this;
+    }
+
+    public function removeQuizz(quizz $quizz): self
+    {
+        $this->quizz->removeElement($quizz);
+
+        return $this;
+    }
+
+    public function getEntreprise(): ?entreprise
+    {
+        return $this->entreprise;
+    }
+
+    public function setEntreprise(?entreprise $entreprise): self
+    {
+        $this->entreprise = $entreprise;
+
+        return $this;
     }
 }
