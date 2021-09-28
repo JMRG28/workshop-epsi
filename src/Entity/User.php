@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -42,6 +44,7 @@ class User implements UserInterface
     private $password;
 
     /**
+<<<<<<< HEAD
      *@Assert\Length(min=5,max=15,minMessage="Le mdp doit faire entre 5 et 15 caractères",max=15,maxMessage="Le mdp doit faire entre 5 et 15 caractères")
      *@Assert\EqualTo(propertyPath="password",message="Mot de passe différent")
      */
@@ -58,6 +61,20 @@ class User implements UserInterface
     {
         $this->verificationPassword = $verificationPassword;
         return $this;
+    }
+    /**
+     * @ORM\ManyToMany(targetEntity=quizz::class, inversedBy="users")
+     */
+    private $quizz;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=entreprise::class, inversedBy="users")
+     */
+    private $entreprise;
+
+    public function __construct()
+    {
+        $this->quizz = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -129,5 +146,41 @@ class User implements UserInterface
     {
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
+    }
+
+    /**
+     * @return Collection|quizz[]
+     */
+    public function getQuizz(): Collection
+    {
+        return $this->quizz;
+    }
+
+    public function addQuizz(quizz $quizz): self
+    {
+        if (!$this->quizz->contains($quizz)) {
+            $this->quizz[] = $quizz;
+        }
+
+        return $this;
+    }
+
+    public function removeQuizz(quizz $quizz): self
+    {
+        $this->quizz->removeElement($quizz);
+
+        return $this;
+    }
+
+    public function getEntreprise(): ?entreprise
+    {
+        return $this->entreprise;
+    }
+
+    public function setEntreprise(?entreprise $entreprise): self
+    {
+        $this->entreprise = $entreprise;
+
+        return $this;
     }
 }
