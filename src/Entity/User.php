@@ -17,7 +17,7 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
  * @ORM\Entity(repositoryClass=UserRepository::class)
  * @UniqueEntity(
  *     fields = {"email"},
- *     message= "Pseudo pas disponible"
+ *     message= "Email existe déjà"
  * )
  * @Vich\Uploadable
  * @method string getUserIdentifier()
@@ -91,7 +91,6 @@ class User implements UserInterface
     private $image;
 
     /**
-
      * @Vich\UploadableField(mapping="user_image", fileNameProperty="image")
      *
      */

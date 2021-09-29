@@ -10,6 +10,8 @@
             <div class="card border-primary" >
                 <div class="card-header">{{ profil.nom }} {{ profil.prenom }}</div>
                 <div class="card-body">
+                    <div class="row">
+                        <div class="col-6">
                     <div class="col-xs1">Email :</div>
                     <div class="col-xs3">{{ profil.email }}</div><br>
                     <div class="col-xs1">Entreprise :</div>
@@ -18,6 +20,11 @@
                     {% for role in profil.roles %}
                         <div class="col-xs3">- {{ role }}</div>
                     {% endfor %}
+                    </div>
+                        <div class="col-6">
+                            <img src="{{ asset('images/users/' ~ app.user.image) }}" style="border-radius: 5%" width="200" height="200" alt="logo"> &nbsp; &nbsp;
+                        </div>
+                    </div>
                 </div>
                 <div class="card-footer">
                     <div class="col-xs1">Score des quizz effectués : ({{ profil.quizz|length }} quizz)</div>
