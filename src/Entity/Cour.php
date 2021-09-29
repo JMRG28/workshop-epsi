@@ -30,7 +30,7 @@ class Cour
     private $textcours;
 
     /**
-     * @ORM\OneToMany(targetEntity=question::class, mappedBy="cour")
+     * @ORM\OneToMany(targetEntity=Question::class, mappedBy="cour")
      */
     private $question;
 

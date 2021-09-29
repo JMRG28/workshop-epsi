@@ -15,4 +15,14 @@ class UserController extends AbstractController
             'controller_name' => 'UserController',
         ]);
     }
+
+    #[Route('/profil', name: 'profil')]
+    public function profil(): Response
+    {
+        $rofil = $this.$this->getDoctrine()->getRepository(User::class)->findBy([], []);
+        return $this->render('user/profil.html.twig', [
+            'controller_name' => 'UserController',
+            'profil' => compact(profil)
+        ]);
+    }
 }

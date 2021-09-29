@@ -25,7 +25,7 @@ class Quizz
     private $score;
 
     /**
-     * @ORM\ManyToMany(targetEntity=question::class, inversedBy="quizzs")
+     * @ORM\ManyToMany(targetEntity=Question::class, inversedBy="quizzs")
      */
     private $question;
 

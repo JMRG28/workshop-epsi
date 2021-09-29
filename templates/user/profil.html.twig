@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block titre %}Profil{% endblock %}
+
+{% block body %}
+    <br><div class="row">
+        <div class="col-lg-4 col-md-2 col-1"></div>
+        <div class="col-lg-4 col-md-8 col-10">
+            <div class="card border-primary" >
+                <div class="card-header">{{ app.user }} AA {{ app.user }}</div>
+                <div class="card-body">
+                    <p class="col-xs1">Nom :</p>
+                    <div class="col-xs3">{{ app.user }}</div>
+                    <p class="col-xs1">Prénom :</p>
+                    <div class="col-xs3">{{ app.user }}</div>
+                    <p class="col-xs1">Email :</p>
+                    <div class="col-xs3">{{ app.user }}</div>
+                </div>
+                <div class="card-footer">
+                    <h5>Quizz</h5>
+                    <p class="col-xs1"  >Score :</p>
+                    <div class="m-4 text-center">
+                        <a href="" class="btn btn-primary m-1">Modifier le profil</a>
+                        <a href="" class="btn btn-primary m-1">Modifier le mot de passe</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
