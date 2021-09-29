@@ -1,27 +1,42 @@
 {% extends 'base.html.twig' %}
 
-{% block titre %}Profil{% endblock %}
+{% block title %}Profil{% endblock %}
+{% block titre %} Profil {% endblock %}
 
 {% block body %}
-    <br><div class="row">
+    <div class="row">
         <div class="col-lg-4 col-md-2 col-1"></div>
         <div class="col-lg-4 col-md-8 col-10">
             <div class="card border-primary" >
-                <div class="card-header">{{ app.user }} AA {{ app.user }}</div>
+                <div class="card-header">{{ profil.nom }} {{ profil.prenom }}</div>
                 <div class="card-body">
-                    <p class="col-xs1">Nom :</p>
-                    <div class="col-xs3">{{ app.user }}</div>
-                    <p class="col-xs1">Prénom :</p>
-                    <div class="col-xs3">{{ app.user }}</div>
-                    <p class="col-xs1">Email :</p>
-                    <div class="col-xs3">{{ app.user }}</div>
+                    <div class="col-xs1">Email :</div>
+                    <div class="col-xs3">{{ profil.email }}</div><br>
+                    <div class="col-xs1">Entreprise :</div>
+                    <div class="col-xs3">{{ profil.entreprise.noment }}</div><br>
+                    <div class="col-xs1">Rôle(s) :</div>
+                    {% for role in profil.roles %}
+                        <div class="col-xs3">- {{ role }}</div>
+                    {% endfor %}
                 </div>
                 <div class="card-footer">
-                    <h5>Quizz</h5>
-                    <p class="col-xs1"  >Score :</p>
+                    <div class="col-xs1">Score des quizz effectués : ({{ profil.quizz|length }} quizz)</div>
+                    {% if profil.quizz|length > 0 %}
+                        {% set moyenne = 0 %}
+                        {% for quiz in profil.quizz %}
+                            {% set moyenne = moyenne + quiz.score %}
+                            <div class="col-xs3">- {{ quiz.score }}</div>
+                        {% endfor %}
+                        {% set moyenne = moyenne / profil.quizz|length %}
+                        <br><div class="col-xs1">Moyenne des quizz :</div>
+                        <div class="col-xs1">{{ moyenne }}</div>
+                    {% else %}
+                        <div class="col-xs3">- Aucun quizz effectué -</div><br>
+                    {% endif %}
+
                     <div class="m-4 text-center">
-                        <a href="" class="btn btn-primary m-1">Modifier le profil</a>
-                        <a href="" class="btn btn-primary m-1">Modifier le mot de passe</a>
+                        <a href="{{ path('updateProfil') }}" class="btn btn-primary m-1">Modifier le profil</a>
+                        <a href="{{ path('updatePassword') }}" class="btn btn-primary m-1">Modifier le mot de passe</a>
                     </div>
                 </div>
             </div>
