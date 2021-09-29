@@ -9,7 +9,25 @@
             <div class="card border-primary" >
                 <div class="card-header">Inscrivez vous!</div>
                 <div class="card-body">
+                    <div class="row">
+                        <div class="col-6">
                     {{ form_start(form) }}
+                    {{ form_row(form.nom,{
+                        "attr":{"placeholder":"Saisir votre nom"},
+                        "label":"Nom"
+                    }) }}
+                    {{ form_row(form.prenom,{
+                        "attr":{"placeholder":"Saisir votre Prénom"},
+                        "label":"Prénom"
+                    }) }}
+                        </div>
+                        <div class="col-6">
+                            {{ form_row(form.imageFile,{
+                                "attr":{"placeholder":"Image"},
+                                "label":"Image"
+                            }) }}
+                        </div>
+                    </div>
                     {{ form_row(form.email,{
                         "attr":{"placeholder":"Saisir votre mail"},
                         "label":"Email"

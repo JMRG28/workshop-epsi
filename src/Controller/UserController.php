@@ -2,9 +2,15 @@
 
 namespace App\Controller;
 
+use App\Entity\User;
+use App\Form\UpdatePassword;
+use App\Form\UpdateProfil;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 class UserController extends AbstractController
 {
@@ -17,12 +23,53 @@ class UserController extends AbstractController
     }
 
     #[Route('/profil', name: 'profil')]
-    public function profil(): Response
+    public function profil(UserInterface $user): Response
     {
-        $rofil = $this.$this->getDoctrine()->getRepository(User::class)->findBy([], []);
         return $this->render('user/profil.html.twig', [
             'controller_name' => 'UserController',
-            'profil' => compact(profil)
+            'profil' => $user,
+        ]);
+    }
+
+    #[Route('/updateProfil', name: 'updateProfil')]
+    public function updateProfil(Request $request, UserInterface $user): Response
+    {
+        $form = $this->createForm(UpdateProfil::class,$user);
+
+        $form->handleRequest($request);
+        if($form->isSubmitted() && $form->isValid()) {
+            $this->getDoctrine()->getManager()->persist($user);
+            $this->getDoctrine()->getManager()->flush();
+            $this->addFlash('success','Modification réussie');
+            return $this->redirectToRoute('profil');
+
+        }
+
+        return $this->render('user/updateProfil.html.twig', [
+            'controller_name' => 'AuthController',
+            'form' => $form->createView()
+        ]);
+    }
+
+    #[Route('/updatePassword', name: 'updatePassword')]
+    public function updatePassword(Request $request, UserPasswordHasherInterface $hasher, UserInterface $user): Response
+    {
+        $form = $this->createForm(UpdatePassword::class,$user);
+
+        $form->handleRequest($request);
+        if($form->isSubmitted() && $form->isValid()) {
+            $hashedPassword = $hasher->hashPassword($user,$user->getPassword());
+            $user->setPassword($hashedPassword);
+            $this->getDoctrine()->getManager()->persist($user);
+            $this->getDoctrine()->getManager()->flush();
+            $this->addFlash('success','Modification réussie');
+            return $this->redirectToRoute('profil');
+
+        }
+
+        return $this->render('user/updatePassword.html.twig', [
+            'controller_name' => 'AuthController',
+            'form' => $form->createView()
         ]);
     }
 }
