@@ -8,6 +8,11 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class MainController extends AbstractController
 {
+    private function Roulette($nbMax){
+        $result = rand(0,$nbMax-1);
+        return $result;
+    }
+
     #[Route('/', name: 'index')]
     public function index(): Response
     {
@@ -18,10 +23,43 @@ class MainController extends AbstractController
     }
 
     #[Route('/tests', name: 'PageTest')]
-    public function PageTest(): Response
+    public function PageTest(QuestionRepository $repository, $QuestionEnCours=null, $monQuestionnaire=null): Response
     {
+        $QuestionsFaciles = $repository->findQuestionFacile();
+        $QuestionsNormales = $repository->findQuestionNormale();
+        $QuestionsDifficiles = $repository->findQuestionDifficile();
+        $monQuestionnaire=array();
+        if (isset($QuestionEnCours) ) {
+            $question=$monQuestionnaire[0];
+            unset($monQuestionnaire[0]);
+        }else {
+            
+            for($i=0;$i<10;$i++){
+                if($i<3){
+    
+                    $Rdm = Roulette(sizeof($QuestionsFaciles));
+        
+                    $question= $QuestionsFaciles[$Rdm];
+                    unset($QuestionsFaciles[$Rdm]);
+                    $monQuestionnaire[$i]=$question;
+                }elseif ($i>2 && $i<7) {
+                    $Rdm = Roulette(sizeof($QuestionsNormales));
+        
+                    $question= $QuestionsNormales[$Rdm];
+                    unset($QuestionsNormales[$Rdm]);
+                    $monQuestionnaire[$i]=$question;
+                }else {
+                    $Rdm = Roulette(sizeof($QuestionsDifficiles));
+        
+                    $question= $QuestionsDifficiles[$Rdm];
+                    unset($QuestionsDifficiles[$Rdm]);
+                    $monQuestionnaire[$i]=$question;
+                }
+            }
+        }
             return $this->render('main/pageTest.html.twig', [
-            'controller_name' => 'MainController',
+            'Question' => $question,
+            'Questionnaire' => $monQuestionnaire
             
         ]);
     }
