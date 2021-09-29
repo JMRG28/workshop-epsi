@@ -62,12 +62,12 @@ class User implements UserInterface
         return $this;
     }
     /**
-     * @ORM\ManyToMany(targetEntity=quizz::class, inversedBy="users")
+     * @ORM\ManyToMany(targetEntity=Quizz::class, inversedBy="users")
      */
     private $quizz;
 
     /**
-     * @ORM\ManyToOne(targetEntity=entreprise::class, inversedBy="users")
+     * @ORM\ManyToOne(targetEntity=Entreprise::class, inversedBy="users")
      */
     private $entreprise;
 
