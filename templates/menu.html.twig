@@ -46,6 +46,9 @@
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle " data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="true">{{ app.user.username }}</a>
                         <div class="dropdown-menu" style="position: absolute; inset: 0px auto auto 0px; margin: 0px; transform: translate(0px, 40px);" data-popper-placement="bottom-start">
+                            <a class="nav-link" href="{{ path('profil') }}">
+                                Profil
+                            </a>
                             <a class="nav-link" href="{{ path('deconnexion') }}">
                                 Logout
                             </a>
