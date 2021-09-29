@@ -2,7 +2,10 @@
 
 namespace App\Form;
 
+use App\Entity\Entreprise;
+use App\Entity\Type;
 use App\Entity\User;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -16,6 +19,11 @@ class InscriptionType extends AbstractType
             ->add('email')
             ->add('password',PasswordType::class)
             ->add('verificationPassword',PasswordType::class)
+            ->add('nom')
+            ->add('entreprise',EntityType::class, [
+                "class" => Entreprise::class,
+                "choice_label" => 'noment'
+            ])
         ;
     }
 
