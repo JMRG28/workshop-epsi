@@ -44,7 +44,6 @@ class User implements UserInterface
     private $password;
 
     /**
-<<<<<<< HEAD
      *@Assert\Length(min=5,max=15,minMessage="Le mdp doit faire entre 5 et 15 caractères",max=15,maxMessage="Le mdp doit faire entre 5 et 15 caractères")
      *@Assert\EqualTo(propertyPath="password",message="Mot de passe différent")
      */
@@ -71,6 +70,21 @@ class User implements UserInterface
      * @ORM\ManyToOne(targetEntity=entreprise::class, inversedBy="users")
      */
     private $entreprise;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $nom;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $prenom;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $image;
 
     public function __construct()
     {
@@ -180,6 +194,42 @@ class User implements UserInterface
     public function setEntreprise(?entreprise $entreprise): self
     {
         $this->entreprise = $entreprise;
+
+        return $this;
+    }
+
+    public function getNom(): ?string
+    {
+        return $this->nom;
+    }
+
+    public function setNom(?string $nom): self
+    {
+        $this->nom = $nom;
+
+        return $this;
+    }
+
+    public function getPrenom(): ?string
+    {
+        return $this->prenom;
+    }
+
+    public function setPrenom(?string $prenom): self
+    {
+        $this->prenom = $prenom;
+
+        return $this;
+    }
+
+    public function getImage(): ?string
+    {
+        return $this->image;
+    }
+
+    public function setImage(?string $image): self
+    {
+        $this->image = $image;
 
         return $this;
     }
