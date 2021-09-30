@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Page d'admin{% endblock %}
+{% block titre %}Admin - cours{% endblock %}
+{% block body %}
+
+    {% for message in app.flashes('success') %}
+        <div class="alert alert-success">
+            {{ message }}
+        </div>
+    {% endfor %}
+
+    <div style="display: flex; justify-content: flex-end">
+        <a class="btn btn-success m-1" href="{{path('ajouterCours')}}">Ajouter</a>
+    </div>
+    <table class="table">
+        <thead class="table-dark">
+        <tr>
+            <th>Id</th>
+            <th>Intitulé</th>
+            <th>Texte</th>
+            <th>Admin</th>
+        </tr>
+        </thead>
+        {% for cour in cours %}
+            <tr>
+                <td>{{ cour.id }}</td>
+                <td>{{ cour.intitule }}</td>
+                <td>{{ cour.textcours }}</td>
+                <td>
+                    <a class="btn btn-warning" href="{{ path('modifierCours',{'id':cour.id}) }}">Modifier</a>
+                    <form style="display:inline-block" onsubmit="return confirm('Confirmer la supression?')" method="post" action="{{ path('supressionCours',{'id':cour.id}) }}">
+                        <input type="hidden" name="_method" value="delete">
+                        <input type="hidden" name="_token" value="{{ csrf_token('SUP' ~ cour.id) }}">
+                        <input type="submit" class="btn btn-danger" value="Supprimer">
+                    </form>
+                </td>
+
+            </tr>
+
+        {% endfor%}
+    </table>
+{% endblock %}

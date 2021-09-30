@@ -2,6 +2,11 @@
 
 namespace App\Controller;
 
+use App\Entity\Aliment;
+use App\Entity\Cour;
+use App\Form\AlimentType;
+use App\Form\CoursType;
+use App\Repository\CourRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -49,5 +54,64 @@ public function editUser(User $user, Request $request)
         'userForm' => $form->createView(),
     ]);
 }
+    #[Route('/admin/cours', name: 'listeCours')]
+    public function coursList(CourRepository $cours)
+    {
+        return $this->render('admin/cours/cours.html.twig', [
+            'cours' => $cours->findAll(),
+        ]);
+    }
+
+    #[Route('/admin/modifierCours/{id}', name: 'modifierCours')]
+    public function modifierCours(Request $request,Cour $cours=null)
+    {
+        $objectManager = $this->getDoctrine()->getManager();
+
+        $form = $this->createForm(CoursType::class,$cours);
+        $form->handleRequest($request);
+        if($form->isSubmitted() && $form->isValid()){
+            $objectManager->persist($cours);
+            $objectManager->flush();
+            $this->addFlash('success', 'Modification effectuée' );
+            return $this->redirectToRoute('listeCours');
+        }
+        return $this->render('admin/cours/modifEtAjoutCours.html.twig', [
+            'controller_name' => 'AdminController',
+            'cour' => $cours,
+            "form" => $form->createView(),
+        ]);
+    }
+    #[Route('/admin/supprimerCours/{id}', name: 'supressionCours')]
+    public function supprimerCours(Cour $cours)
+    {
+        return $this->render('admin/cours/cours.html.twig', [
+            'cours' => $cours,
+        ]);
+    }
+
+    #[Route('/admin/ajouterCours', name: 'ajouterCours')]
+    public function ajouterCours(Request $request,Cour $cours=null)
+    {
+        $cours = new Cour();
+        $objectManager = $this->getDoctrine()->getManager();
+
+        $form = $this->createForm(CoursType::class,$cours);
+        $form->handleRequest($request);
+        if($form->isSubmitted() && $form->isValid()){
+            $objectManager->persist($cours);
+            $objectManager->flush();
+            $this->addFlash('success', 'Ajout effectuée' );
+            return $this->redirectToRoute('listeCours');
+        }
+        return $this->render('admin/cours/modifEtAjoutCours.html.twig', [
+            'controller_name' => 'AdminController',
+            'cour' => $cours,
+            "form" => $form->createView(),
+        ]);
+    }
+
+
+
+
 
 }

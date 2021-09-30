@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Service;
+namespace App\YTB;
 
 class YtbScrapper
 {
-    public function getVideo($theme, $text)
+    public static function getVideo($theme, $text)
     {
         // On divise le texte en mot
         $words = mb_split( ' +', $text );
@@ -39,4 +39,4 @@ class YtbScrapper
         return system('python3 /root/Searcher.py ' . "\"" . $theme . "\"" . "+" . "\"" . $m_c . "\"");
     }
 }
-?>
+
