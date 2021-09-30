@@ -43,6 +43,9 @@
 
                     <div class="m-4 text-center">
                         <a href="{{ path('updateProfil') }}" class="btn btn-primary m-1">Modifier le profil</a>
+                        {% if is_granted('ROLE_ADMIN') %}
+                        <a href="{{ path('modifier_utilisateur',{'id':profil.id}) }}" class="btn btn-primary m-1">Modifier un role</a>
+                        {% endif %}
                         <a href="{{ path('updatePassword') }}" class="btn btn-primary m-1">Modifier le mot de passe</a>
                     </div>
                 </div>
