@@ -26,7 +26,8 @@ class QuestionRepository extends ServiceEntityRepository
     public function findQuestionFacile()
     {
         return $this->createQueryBuilder('q')
-            ->andWhere('q.difficulte = Facile')
+            ->andWhere('q.difficulte = :val')
+            ->setParameter('val', 'Facile')
             ->orderBy('q.id', 'ASC')
             ->getQuery()
             ->getResult()
@@ -40,7 +41,8 @@ class QuestionRepository extends ServiceEntityRepository
       public function findQuestionNormale()
       {
           return $this->createQueryBuilder('q')
-              ->andWhere('q.difficulte = Normal')
+          ->andWhere('q.difficulte = :val')
+          ->setParameter('val', 'Moyen')
               ->orderBy('q.id', 'ASC')
               ->getQuery()
               ->getResult()
@@ -54,12 +56,30 @@ class QuestionRepository extends ServiceEntityRepository
     public function findQuestionDifficile()
     {
         return $this->createQueryBuilder('q')
-            ->andWhere('q.difficulte = Difficile')
+            ->andWhere('q.difficulte = :val')
+            ->setParameter('val', 'Difficile')
             ->orderBy('q.id', 'ASC')
             ->getQuery()
             ->getResult()
         ;
     }
+
+    /**
+      * @return Reponse[] Returns an array of reponse objects
+      */
+    
+    public function findIdQuestion($question)
+    {
+        return $this->createQueryBuilder('q')
+        ->andWhere('q.enonce = :val')
+        ->setParameter('val', $question)
+        ->orderBy('q.id', 'ASC')
+        ->getQuery()
+        ->getResult()
+        ;
+
+    }
+  
     
 
     /*

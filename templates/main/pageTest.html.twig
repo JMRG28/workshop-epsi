@@ -20,7 +20,16 @@
     </div>
     <div class="row">
         <div class="col-xs-12 center">
-            Inserer ici la question du test
+           {{Question}}
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xs-12 center">
+            {{Reponses[0]}}
+            {% for i in 1..Reponses.length %}
+                {{ Reponses[i] }}
+            {% endfor %}
         </div>
     </div>
 </div>
