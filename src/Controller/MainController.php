@@ -11,6 +11,7 @@ use App\Entity\Question;
 
 class MainController extends AbstractController
 {
+    
     private function Roulette($nbMax){
         $result = rand(0,$nbMax);
         return $result;
@@ -55,8 +56,6 @@ class MainController extends AbstractController
         $idQuestion = $repository->findIdQuestion($question);
         $idQuestion = $idQuestion[0]->getId();
         $reponses= $reponseRepo->findReponses($idQuestion);
-        var_dump($reponses);
-        die;
         return $reponses;
     }
 
@@ -70,23 +69,40 @@ class MainController extends AbstractController
     }
 
     #[Route('/tests', name: 'PageTest')]
-    public function PageTest(ReponseRepository $reponseRepo, QuestionRepository $repository, $QuestionEnCours=null, $monQuestionnaire=null): Response
+    public function PageTest(ReponseRepository $reponseRepo, QuestionRepository $repository, $Question=null, $Questionnaire=null, $Choix=null): Response
     {
-        if (isset($QuestionEnCours) ) {
-            $question=$monQuestionnaire[0];
-            unset($monQuestionnaire[0]);
+        
+
+        if (isset($_SESSION['Quizz']) ) {
+            if (count($_SESSION['Quizz'])==0) {
+                unset($_SESSION['Quizz']);
+            }else{
+                $monQuestionnaire=$_SESSION['Quizz'];
+                $question=$monQuestionnaire[0];
+                array_splice($monQuestionnaire, 0, 1);
+                $_SESSION['Quizz']=$monQuestionnaire;
+            }
         }else {
             $monQuestionnaire = self::InitialiserQuizz($repository);
             $question=$monQuestionnaire[0];
             array_splice($monQuestionnaire, 0, 1);
+            $_SESSION['Quizz']=$monQuestionnaire;
 
+            
+        }
+        if (isset($question)) {
             $reponses = self::ChercherReponses($repository, $question, $reponseRepo);
-
+            for ($i=0; $i < count($reponses); $i++) { 
+                $mesReponses[$i]=$reponses[$i]->getReponse();
+            }
+        }
+        else{
+            $question = "merci d'avoir participé";
+            $mesReponses="";
         }
             return $this->render('main/pageTest.html.twig', [
             'Question' => $question,
-            'Questionnaire' => $monQuestionnaire,
-            'Reponses'=> $reponses
+            'Reponses'=> $mesReponses
             
         ]);
     }

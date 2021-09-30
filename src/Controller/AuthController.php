@@ -40,6 +40,7 @@ class AuthController extends AbstractController
     #[Route('/login', name: 'login')]
     public function login(AuthenticationUtils $util,Request $request): Response
     {
+        session_start();
         return $this->render('security/login.html.twig', [
             'controller_name' => 'AuthController',
             'lastUsername' => $util->getLastUsername(),
