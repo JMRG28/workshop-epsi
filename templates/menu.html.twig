@@ -10,14 +10,12 @@
         <div class="navbar-collapse collapse show" id="navbarColor02" style="">
             <ul class="navbar-nav me-auto">
 
-
+                {% if is_granted('ROLE_USER') %}
                 <li class="nav-item dropdown">
+               
                     <a class="nav-link dropdown-toggle " data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="true">Cours</a>
                     <div class="dropdown-menu " style="position: absolute; inset: 0px auto auto 0px; margin: 0px; transform: translate(0px, 42px);" data-popper-placement="bottom-start">
                         <a class="dropdown-item" href="{{ path('cour') }}">Cours</a>
-                        {% if is_granted('ROLE_ADMIN') %}
-                            <a class="dropdown-item" href="{{ path('cour') }}">Admin Cours</a>
-                        {% endif %}
                     </div>
                 </li>
 
@@ -25,12 +23,10 @@
                     <a class="nav-link dropdown-toggle " data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="true">Tests</a>
                     <div class="dropdown-menu " style="position: absolute; inset: 0px auto auto 0px; margin: 0px; transform: translate(0px, 42px);" data-popper-placement="bottom-start">
                         <a class="dropdown-item" href="{{ path('PageTest') }}">Tests</a>
-                        {% if is_granted('ROLE_ADMIN') %}
-                            <a class="dropdown-item" href="{{ path('PageTest') }}">Admin Tests</a>
-                        {% endif %}
                     </div>
                 </li>
             </ul>
+                {% endif %}
             <ul class="navbar-nav ml-auto">
                 {% if not app.user %}
                     <li>
