@@ -30,6 +30,13 @@
                         <a class="dropdown-item" href="{{ path('PageTest') }}">Tests</a>
                     </div>
                 </li>
+
+                {% if is_granted('ROLE_ADMIN') %}
+                    <li class="nav-item dropdown">
+                        <a class="nav-link" href="{{ path('questions') }}">Questions</a>
+                    </li>
+                {% endif %}
+
             </ul>
                 {% endif %}
             <ul class="navbar-nav ml-auto">

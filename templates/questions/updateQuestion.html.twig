@@ -1,0 +1,55 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ action }}{% endblock %}
+{% block titre %} {{ action}} de la question {% endblock %}
+
+{% block body %}
+    <div class="row">
+        <div class="col-lg-4 col-md-2 col-1"></div>
+        <div class="col-lg-4 col-md-8 col-10">
+            <div class="card border-primary" >
+                <div class="card-header">Question</div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-6">
+                            {{ form_start(form) }}
+                            {{ form_row(form.enonce,{
+                                "attr":{"placeholder":"Saisir l'énoncé de la question"},
+                                "label":"Enoncé :"
+                            }) }}
+                            {{ form_row(form.theme,{
+                                "attr":{"placeholder":"Saisir le thème"},
+                                "label":"Thème :"
+                            }) }}
+                        </div>
+                        <div class="col-6">
+                            {{ form_row(form.imageFile,{
+                                "attr":{"placeholder":"Image"},
+                                "label":"Image :"
+                            }) }}
+                        </div>
+                    </div>
+                    {{ form_row(form.difficulte,{
+                        "attr":{"placeholder":"Saisir la difficulté"},
+                        "label":"Difficulté :"
+                    }) }}
+                    {{ form_row(form.cour,{
+                        "attr":{"placeholder":"Saisir le cours lié à la question"},
+                        "label":"Cours :"
+                    }) }}
+                    {{ form_widget(form) }}
+
+                    <div class="m-4 text-center">
+                        <input class="btn btn-primary m-1" type="submit" value="Valider !">
+                        {{ form_end(form) }}
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-2 col-1"></div>
+    </div>
+{% endblock %}
+
+
+

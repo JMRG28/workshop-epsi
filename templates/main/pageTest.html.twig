@@ -20,16 +20,36 @@
     </div>
     <div class="row">
         <div class="col-xs-12 center">
-           {{Question}}
+            <h4>Question  :  {{ Question}} </h4> 
         </div>
     </div>
 
     <div class="row">
         <div class="col-xs-12 center">
-            {{Reponses[0]}}
-            {% for i in 1..Reponses.length %}
-                {{ Reponses[i] }}
-            {% endfor %}
+            {% if Reponses is not empty %}
+    ...
+                <form action="{{ '/tests'}}" method="post"> 
+                    <input  type="hidden" value ="{{Question}}" name="Reponse"
+                                    >
+                    {% for i in 0..Reponses %}
+                        <article>
+                            <br>
+                                <div class="form-group">
+                                    <input class="form-check-input" type="checkbox" value ="{{Question}}" name="Reponse"
+                                    >
+                                    <label class="form-check-label" for="{{loop.index}}">{{Reponses[i]}}</label>
+                                </div>                   
+                            <br>
+                            
+                        </article>       
+                        {% endfor %}
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-success">Validez!</button>
+                        </div>
+                    </form>      
+                        <br />
+            {% endif %}
+
         </div>
     </div>
 </div>
