@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ action }}{% endblock %}
+{% block titre %} {{ action}} de la réponse {% endblock %}
+
+{% block body %}
+    <div class="row">
+        <div class="col-lg-4 col-md-2 col-1"></div>
+        <div class="col-lg-4 col-md-8 col-10">
+            <div class="card border-primary" >
+                <div class="card-header">Question</div>
+                <div class="card-body">
+                    <div class="row">
+                        {{ form_start(form) }}
+                        {{ form_row(form.reponse,{
+                            "attr":{"placeholder":"Saisir la réponse de la question"},
+                            "label":"Réponse :"
+                        }) }}
+                        {{ form_row(form.resultat,{
+                            "attr":{"placeholder":"Saisir le résultat de la question"},
+                            "label":"Résultat"
+                        }) }}
+                    {{ form_widget(form) }}
+                    <div class="m-4 text-center">
+                        <input class="btn btn-primary m-1" type="submit" value="Valider !">
+                        {{ form_end(form) }}
+                    </div>
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-2 col-1"></div>
+    </div>
+{% endblock %}
+
+
+

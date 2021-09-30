@@ -4,11 +4,15 @@ namespace App\Entity;
 
 use App\Repository\QuestionRepository;
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\HttpFoundation\File\File;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass=QuestionRepository::class)
+ * @Vich\Uploadable
  */
 class Question
 {
@@ -28,6 +32,12 @@ class Question
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $image;
+
+    /**
+     * @Vich\UploadableField(mapping="question_image", fileNameProperty="image")
+     *
+     */
+    private $imageFile;
 
     /**
      * @ORM\Column(type="string", length=255,  columnDefinition="enum('easy', 'medium' , 'hard')", nullable=true)
@@ -53,6 +63,11 @@ class Question
      * @ORM\ManyToOne(targetEntity=Cour::class, inversedBy="question")
      */
     private $cour;
+
+    /**
+     * @ORM\Column(type="datetime_immutable", nullable=true)
+     */
+    private $updated_at;
 
     public function __construct()
     {
@@ -87,6 +102,21 @@ class Question
         $this->image = $image;
 
         return $this;
+    }
+
+    public function setImageFile(?File $imageFile = null): self
+    {
+        $this->imageFile = $imageFile;
+
+        if($this->imageFile instanceof UploadedFile){
+            $this->updated_at = new  \DateTimeImmutable('now');
+        }
+        return $this;
+    }
+
+    public function getImageFile(): ?File
+    {
+        return $this->imageFile;
     }
 
     public function getDifficulte(): ?string
@@ -178,6 +208,18 @@ class Question
     public function setCour(?Cour $cour): self
     {
         $this->cour = $cour;
+
+        return $this;
+    }
+
+    public function getUpdatedAt(): ?\DateTimeImmutable
+    {
+        return $this->updated_at;
+    }
+
+    public function setUpdatedAt(?\DateTimeImmutable $updated_at): self
+    {
+        $this->updated_at = $updated_at;
 
         return $this;
     }
