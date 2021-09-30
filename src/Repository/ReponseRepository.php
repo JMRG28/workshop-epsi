@@ -19,6 +19,17 @@ class ReponseRepository extends ServiceEntityRepository
         parent::__construct($registry, Reponse::class);
     }
 
+
+    public function findReponses($idQuestion){
+        return $this->createQueryBuilder('r')
+            ->andWhere('r.question = :val')
+            ->setParameter('val', $idQuestion)
+            ->orderBy('r.id', 'ASC')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
     // /**
     //  * @return Reponse[] Returns an array of Reponse objects
     //  */
