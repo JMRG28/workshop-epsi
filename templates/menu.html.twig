@@ -1,5 +1,7 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container-fluid">
+        <img src="{{ asset('images/logo/sardine.png') }}"  width="50" height="50" alt="logo"> &nbsp; &nbsp;
+
         <a class="navbar-brand" href="{{ path('index') }}">Workshop</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor02" aria-controls="navbarColor02" aria-expanded="true" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -12,9 +14,9 @@
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle " data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="true">Cours</a>
                     <div class="dropdown-menu " style="position: absolute; inset: 0px auto auto 0px; margin: 0px; transform: translate(0px, 42px);" data-popper-placement="bottom-start">
-                        <a class="dropdown-item" href="">Item A</a>
+                        <a class="dropdown-item" href="{{ path('cour') }}">Cours</a>
                         {% if is_granted('ROLE_ADMIN') %}
-                            <a class="dropdown-item" href="">Admin Item A</a>
+                            <a class="dropdown-item" href="{{ path('cour') }}">Admin Cours</a>
                         {% endif %}
                     </div>
                 </li>
@@ -22,9 +24,9 @@
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle " data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="true">Tests</a>
                     <div class="dropdown-menu " style="position: absolute; inset: 0px auto auto 0px; margin: 0px; transform: translate(0px, 42px);" data-popper-placement="bottom-start">
-                        <a class="dropdown-item" href="">Item B</a>
+                        <a class="dropdown-item" href="{{ path('PageTest') }}">Tests</a>
                         {% if is_granted('ROLE_ADMIN') %}
-                            <a class="dropdown-item" href="">Admin Item B</a>
+                            <a class="dropdown-item" href="{{ path('PageTest') }}">Admin Tests</a>
                         {% endif %}
                     </div>
                 </li>
