@@ -6,6 +6,7 @@ use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Exception;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
@@ -22,7 +23,7 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
  * @Vich\Uploadable
  * @method string getUserIdentifier()
  */
-class User implements UserInterface
+class User implements UserInterface,\Serializable
 {
     /**
      * @ORM\Id
@@ -274,5 +275,35 @@ class User implements UserInterface
         $this->updated_at = new  \DateTimeImmutable('now');
 
         return $this;
+    }
+
+    public function serialize()
+    {
+        return serialize(array(
+            $this->id,
+            $this->email,
+            $this->password,
+            $this->entreprise,
+            $this->nom,
+            $this->prenom,
+            $this->updated_at,
+            $this->image
+
+
+        ));
+    }
+
+    public function unserialize($data)
+    {
+        list(
+            $this->id,
+            $this->email,
+            $this->password,
+            $this->entreprise,
+            $this->nom,
+            $this->prenom,
+            $this->updated_at,
+            $this->image
+            ) = unserialize($data);
     }
 }

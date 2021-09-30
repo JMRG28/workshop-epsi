@@ -2,9 +2,13 @@
 
 namespace App\Controller;
 
+use App\Entity\Aliment;
 use App\Entity\User;
+use App\Form\AlimentType;
+use App\Form\InscriptionType;
 use App\Form\UpdatePassword;
 use App\Form\UpdateProfil;
+use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -32,14 +36,18 @@ class UserController extends AbstractController
     }
 
     #[Route('/updateProfil', name: 'updateProfil')]
-    public function updateProfil(Request $request, UserInterface $user): Response
+    public function updateProfil(Request $request, UserInterface $userInt,UserRepository $repository): Response
     {
+        $userId = $userInt->getId();
+        $user =$repository->find($userId);
+
+        $objectManager = $this->getDoctrine()->getManager();
         $form = $this->createForm(UpdateProfil::class,$user);
 
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid()) {
-            $this->getDoctrine()->getManager()->persist($user);
-            $this->getDoctrine()->getManager()->flush();
+            $objectManager->persist($user);
+            $objectManager->flush();
             $this->addFlash('success','Modification réussie');
             return $this->redirectToRoute('profil');
 
