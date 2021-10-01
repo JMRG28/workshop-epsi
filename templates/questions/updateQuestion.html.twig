@@ -24,9 +24,10 @@
                         </div>
                         <div class="col-6">
                             {{ form_row(form.imageFile,{
-                                "attr":{"placeholder":"Image"},
-                                "label":"Image :"
+                                "attr":{"placeholder":"Image","onchange":"previewFile(this);"},
+
                             }) }}
+                            <img id="previewImg" src="{{ asset('images/logo/pixel.png') }}" width="100%" alt="Placeholder">
                         </div>
                     </div>
                     {{ form_row(form.difficulte,{
